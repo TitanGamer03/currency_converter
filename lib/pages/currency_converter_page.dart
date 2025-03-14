@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyConverterPage extends StatefulWidget{
@@ -9,8 +10,27 @@ class CurrencyConverterPage extends StatefulWidget{
 
 class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
 
-  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _fromController = TextEditingController();
+  final TextEditingController _toController = TextEditingController();
   double amount = 0;
+  String formattedNumber = '0';
+  String input = '';
+
+  void convertCurrency() {
+    if (kDebugMode) {
+      print("${_fromController.text}, ${_toController.text}");
+    }
+    setState(() {
+      input = "";
+      if (_fromController.text.isEmpty) {
+        _fromController.text = "0";
+      }
+      amount = double.parse(_fromController.text) * 86.96;
+      String formattedNumber = amount.toStringAsFixed(5);
+      amount = double.parse(formattedNumber);
+      input = '$amount ₹';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,34 +39,23 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              '0 \$',
-              style: TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
 
+            // TextBox for input amount.
             SizedBox(
               width: 300,
               child: TextField(
-                controller: _amountController,
+                controller: _fromController,
                 decoration: InputDecoration(
-                  prefixIcon: const Icon(
-                    Icons.currency_rupee,
-                  ),
-                  hintText: "Enter Amount in INR",
+                  labelText: "Amount in USD",
                   filled: true,
                   fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
                     borderSide: const BorderSide(
                       color: Colors.black,
                       width: 2,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
                     borderSide: const BorderSide(
                       color: Colors.lightBlue,
                       width: 2,
@@ -57,26 +66,74 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
               ),
             ),
 
+            // const SizedBox(height: 16,),
+            //
+            // TextBox for output amount.
+            // SizedBox(
+            //   width: 300,
+            //   child: TextField(
+            //     controller: _toController,
+            //     decoration: InputDecoration(
+            //       hintText: "Amount in USD",
+            //       filled: true,
+            //       fillColor: Colors.white,
+            //       enabledBorder: OutlineInputBorder(
+            //         borderSide: const BorderSide(
+            //           color: Colors.black,
+            //           width: 2,
+            //         ),
+            //       ),
+            //       focusedBorder: OutlineInputBorder(
+            //         borderSide: const BorderSide(
+            //           color: Colors.lightBlue,
+            //           width: 2,
+            //         ),
+            //       ),
+            //     ),
+            //     keyboardType: TextInputType.number,
+            //   ),
+            // ),
+
             const SizedBox(height: 16,),
 
-            ElevatedButton(
-              onPressed: (){
-                setState(() {
-                  amount = double.parse(_amountController.text);
-                  amount = amount * 0.012;
-                });
-              },
-              style: ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(Colors.lightBlue),
-              ),
-              child: const Text(
-                "Convert",
-                style: TextStyle(
-                  color: Colors.white,
+            // Button to convert currency.
+            SizedBox(
+              width: 300,
+              child: ElevatedButton(
+                onPressed: convertCurrency,
+                style: ButtonStyle(
+                  elevation: WidgetStatePropertyAll(10),
+                  shape: WidgetStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  backgroundColor: WidgetStatePropertyAll(Colors.black),
+                ),
+                child: const Text(
+                  "Convert",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            )
+            ),
 
+            const SizedBox(height: 16,),
+
+            // Show Converted amount.
+            SizedBox(
+              width: 300,
+              child: Center(
+                child: Text(
+                  input,
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
