@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CurrencyConverterPage extends StatefulWidget{
@@ -17,9 +16,6 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
   String input = '';
 
   void convertCurrency() {
-    if (kDebugMode) {
-      print("${_fromController.text}, ${_toController.text}");
-    }
     setState(() {
       input = "";
       if (_fromController.text.isEmpty) {
@@ -35,6 +31,10 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey.shade300,
+      appBar: AppBar(
+        title: const Text("Currency Converter"),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +46,7 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
               child: TextField(
                 controller: _fromController,
                 decoration: InputDecoration(
-                  labelText: "Amount in USD",
+                  hintText: "Amount in USD",
                   filled: true,
                   fillColor: Colors.white,
                   enabledBorder: OutlineInputBorder(
@@ -65,34 +65,6 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
                 keyboardType: TextInputType.number,
               ),
             ),
-
-            // const SizedBox(height: 16,),
-            //
-            // TextBox for output amount.
-            // SizedBox(
-            //   width: 300,
-            //   child: TextField(
-            //     controller: _toController,
-            //     decoration: InputDecoration(
-            //       hintText: "Amount in USD",
-            //       filled: true,
-            //       fillColor: Colors.white,
-            //       enabledBorder: OutlineInputBorder(
-            //         borderSide: const BorderSide(
-            //           color: Colors.black,
-            //           width: 2,
-            //         ),
-            //       ),
-            //       focusedBorder: OutlineInputBorder(
-            //         borderSide: const BorderSide(
-            //           color: Colors.lightBlue,
-            //           width: 2,
-            //         ),
-            //       ),
-            //     ),
-            //     keyboardType: TextInputType.number,
-            //   ),
-            // ),
 
             const SizedBox(height: 16,),
 
